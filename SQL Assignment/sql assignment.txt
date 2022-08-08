@@ -1,0 +1,115 @@
+Enter password: *****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 17
+Server version: 8.0.30 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE database YUHU;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use YUHU;
+Database changed
+mysql> CREATE TABLE employee(emp_id INT,emp_name VARCHAR(250),job_name VARCHAR(250),manager_id INT,hire_date DATE,salary DOUBLE,commision INT,dept_id INT);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> INSERT INTO employee VALUES(68319,'KAYLING','PRESIDENT',13,'1991-11-18',6000.0,1001,3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO employee VALUES(66928,'BLAZE','MANAGER',10,'1991-05-01',2750.0,3001,1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO employee VALUES(67832,'CLARE','MANAGER',15,'1991-06-09',2550.00,1001,6);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO employee VALUES(65646,'JONAS','MANAGER',68319,'1991-04-02',2957.00,2001,2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM employee;
++--------+----------+-----------+------------+------------+--------+-----------+---------+
+| emp_id | emp_name | job_name  | manager_id | hire_date  | salary | commision | dept_id |
++--------+----------+-----------+------------+------------+--------+-----------+---------+
+|  68319 | KAYLING  | PRESIDENT |         13 | 1991-11-18 |   6000 |      1001 |       3 |
+|  66928 | BLAZE    | MANAGER   |         10 | 1991-05-01 |   2750 |      3001 |       1 |
+|  67832 | CLARE    | MANAGER   |         15 | 1991-06-09 |   2550 |      1001 |       6 |
+|  65646 | JONAS    | MANAGER   |      68319 | 1991-04-02 |   2957 |      2001 |       2 |
++--------+----------+-----------+------------+------------+--------+-----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM salary;
+ERROR 1146 (42S02): Table 'yuhu.salary' doesn't exist
+mysql> SELECT salary FROM employee;
++--------+
+| salary |
++--------+
+|   6000 |
+|   2750 |
+|   2550 |
+|   2957 |
++--------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT DISTICT job_name FROM employee;
+ERROR 1054 (42S22): Unknown column 'DISTICT' in 'field list'
+mysql> SELECT DISTINCT job_name FROM employee;
++-----------+
+| job_name  |
++-----------+
+| PRESIDENT |
+| MANAGER   |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> select ename,sal*1.15 "SAL(No of Dollars)"
+    ->
+    -> SELECT * FROM employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT * FROM employee' at line 3
+mysql> SELECT emp_name,
+    ->        to_char(1.15*salary,'$99,999') AS "Salary"
+    ->
+    -> SELECT * FROM employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT * FROM employee' at line 4
+mysql> SELECT emp_name,to_char(1.15*salary,'$99,999') AS "salary" FROM employee;
+ERROR 1305 (42000): FUNCTION yuhu.to_char does not exist
+mysql> SELECT emp_name,salary*1.5 "salary(No of Dollars)" FROM employee;
++----------+-----------------------+
+| emp_name | salary(No of Dollars) |
++----------+-----------------------+
+| KAYLING  |                  9000 |
+| BLAZE    |                  4125 |
+| CLARE    |                  3825 |
+| JONAS    |                4435.5 |
++----------+-----------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT CONCAT (emp_name, "&" ,job_name) FROM employee;
++----------------------------------+
+| CONCAT (emp_name, "&" ,job_name) |
++----------------------------------+
+| KAYLING&PRESIDENT                |
+| BLAZE&MANAGER                    |
+| CLARE&MANAGER                    |
+| JONAS&MANAGER                    |
++----------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT CONCAT(emp_name,"&",emp_job)"Employee & Job" FROM employee;
+ERROR 1054 (42S22): Unknown column 'emp_job' in 'field list'
+mysql> SELECT CONCAT(emp_name,"&",emp_name)"Employee & Job" FROM employee;
++-----------------+
+| Employee & Job  |
++-----------------+
+| KAYLING&KAYLING |
+| BLAZE&BLAZE     |
+| CLARE&CLARE     |
+| JONAS&JONAS     |
++-----------------+
+4 rows in set (0.00 sec)
+
+mysql>
